@@ -139,6 +139,9 @@
     width: 100%;
     height: 100%;
     object-fit: cover;
+    position: absolute;
+    top: 0;
+    left: 0;
   }
 
   .card-image-placeholder {
@@ -237,7 +240,7 @@
     font-weight: 500;
   }
 
-  /* Card specific backgrounds */
+  /* Card specific backgrounds (fallback if no image) */
   .card[data-index="0"] .card-image { background: linear-gradient(135deg, #1a1a2e, #16213e); }
   .card[data-index="1"] .card-image { background: linear-gradient(135deg, #0f3460, #533483); }
   .card[data-index="2"] .card-image { background: linear-gradient(135deg, #e94560, #0f3460); }
@@ -386,6 +389,12 @@
     justify-content: center;
     font-size: 3rem;
     overflow: hidden;
+  }
+
+  .match-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
   }
 
   .match-avatar:nth-child(3) {
@@ -583,7 +592,7 @@
     <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" fill="url(#grad)"/>
     <defs><linearGradient id="grad" x1="2" y1="3" x2="22" y2="21"><stop stop-color="#fd267a"/><stop offset="1" stop-color="#ff6036"/></linearGradient></defs>
   </svg>
-  <span>toinou</span>
+  <span>tinder</span>
 </div>
 
 <!-- Swipe hint -->
@@ -607,9 +616,14 @@
 <!-- Match Screen -->
 <div class="match-screen" id="matchScreen">
   <div class="match-avatars">
-    <div class="match-avatar" style="background: linear-gradient(135deg, #1a1a2e, #16213e);">🤵</div>
+    <!-- REMPLACE les emojis par tes photos ici aussi -->
+    <div class="match-avatar" style="background: linear-gradient(135deg, #1a1a2e, #16213e);">
+      <img src="match_toinou.jpeg" onerror="this.style.display='none'; this.parentElement.innerHTML='🤵';" />
+    </div>
     <div class="match-heart">💘</div>
-    <div class="match-avatar" style="background: linear-gradient(135deg, #fc5c7d, #6a82fb);">👸</div>
+    <div class="match-avatar" style="background: linear-gradient(135deg, #fc5c7d, #6a82fb);">
+      <img src="match_lanou.jpeg" onerror="this.style.display='none'; this.parentElement.innerHTML='👸';" />
+    </div>
   </div>
   <div class="match-title">Match !</div>
   <div class="match-subtitle">Toinou & Lanou se sont likés</div>
@@ -638,13 +652,29 @@
 <div class="confetti-container" id="confetti"></div>
 
 <script>
-// Card data
+// ============================================================
+// 📸 COMMENT AJOUTER TES PHOTOS :
+// 
+// 1. Mets tes photos dans le MÊME dossier que ce fichier index.html
+//    sur GitHub (photo1.jpg, photo2.jpg, etc.)
+//
+// 2. Change les noms ci-dessous pour correspondre à tes fichiers :
+//    image: "photo1.jpg"  →  image: "mon-image.jpg"
+//
+// 3. Si tu veux garder un emoji à la place, mets juste :
+//    image: null
+//
+// 4. Pour l'écran Match, remplace aussi "match-toinou.jpg" et 
+//    "match-lanou.jpg" dans le HTML au-dessus.
+// ============================================================
+
 const cards = [
   {
     name: "Toinou",
     age: "Ton mec",
     distance: "à 0 km (collé à toi)",
-    emoji: "😎",
+    image: "photo1.jpeg",   // 👈 Ta photo principale
+    emoji: "😎",            // Emoji de secours si pas de photo
     bg: 0,
     bio: "Amoureux de toi depuis 2020. Swipe à droite si tu veux continuer à me découvrir.",
     tags: ["Amoureux", "Tiens + d'1min", "Netflix & Chill"]
@@ -653,6 +683,7 @@ const cards = [
     name: "Toinou",
     age: "Ses qualités",
     distance: "Certifié meilleur copain",
+    image: "photo2.jpeg",   // 👈 Photo drôle / stylée
     emoji: "💪",
     bg: 1,
     bio: "On dit de moi que je suis drôle, que je râte (presque) jamais mes pâtes et que je sais faire la vaisselle et le ménage.",
@@ -662,6 +693,7 @@ const cards = [
     name: "Toinou",
     age: "Pourquoi matcher",
     distance: "100% compatible",
+    image: "photo3.jpeg",   // 👈 Photo fun
     emoji: "🔥",
     bg: 2,
     bio: "✅ Te fera rire tous les jours\n✅ Toujours partant pour un tacos\n✅ Te laisse le dernier morceau\n✅ Te laisse la place dans le lit (en echange de la couette)",
@@ -671,6 +703,7 @@ const cards = [
     name: "Toinou & Lanou",
     age: "Nos moments",
     distance: "Depuis le 24/06/2020",
+    image: "photo4.jpeg",   // 👈 Photo de vous deux
     emoji: "📸",
     bg: 3,
     bio: "Nos fous rires, nos road trips, nos soirées à regarder des films/serie avec une pizza ou un tacos",
@@ -680,6 +713,7 @@ const cards = [
     name: "Toinou",
     age: "je t'aime",
     distance: "Tout droit du cœur",
+    image: "photo5.jpeg",   // 👈 Photo romantique de vous
     emoji: "💌",
     bg: 4,
     bio: "Mon ange, t'es pas juste ma copine, t'es ma meilleure amie, ma coéquipière it takes two. Chaque jour avec toi contribue à mon bonheur. Merci d'être toujours avec moi. ❤️",
@@ -689,6 +723,7 @@ const cards = [
     name: "SWIPE RIGHT →",
     age: "La grande question",
     distance: "13 février 2026",
+    image: "photo6.jpeg",   // 👈 Photo spéciale ou de vous deux
     emoji: "💘",
     bg: 5,
     bio: "Tu as survécu au diapo, à la chasse au trésor... Cette année c'est le swipe de ta vie. Tu sais ce qu'il te reste à faire →",
@@ -700,9 +735,8 @@ let currentIndex = 0;
 const stack = document.getElementById('cardStack');
 const dotsContainer = document.getElementById('dots');
 
-// Build cards (reversed so first card is on top)
+// Build dots
 cards.forEach((card, i) => {
-  // Dots
   const dot = document.createElement('div');
   dot.classList.add('dot');
   if (i === 0) dot.classList.add('active');
@@ -717,14 +751,19 @@ for (let i = cards.length - 1; i >= 0; i--) {
   el.setAttribute('data-index', i);
   el.style.zIndex = cards.length - i;
   
-  // Slight stack effect
   if (i > 0) {
     el.style.transform = `scale(${1 - (i - currentIndex) * 0.03}) translateY(${(i - currentIndex) * 8}px)`;
   }
 
+  // Si une image est définie, on affiche une <img>, sinon l'emoji
+  const imageContent = card.image
+    ? `<img class="card-image-bg" src="${card.image}" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
+       <div class="card-image-placeholder" style="display:none;">${card.emoji}</div>`
+    : `<div class="card-image-placeholder">${card.emoji}</div>`;
+
   el.innerHTML = `
     <div class="card-image">
-      <div class="card-image-placeholder">${card.emoji}</div>
+      ${imageContent}
       <div class="gradient-overlay"></div>
       <div class="card-name">
         <h2>${card.name}</h2>
@@ -799,11 +838,9 @@ function swipeCard(direction) {
   cardEl.style.transition = 'transform 0.5s ease, opacity 0.4s ease';
 
   if (direction === 'left') {
-    // Last card can't be swiped left
     if (currentIndex === cards.length - 1) {
       cardEl.style.transform = '';
       cardEl.querySelector('.stamp.nope').style.opacity = 0;
-      // Shake effect
       cardEl.style.animation = 'none';
       cardEl.offsetHeight;
       cardEl.style.transition = 'transform 0.1s ease';
@@ -825,7 +862,6 @@ function swipeCard(direction) {
   currentIndex++;
 
   if (currentIndex >= cards.length) {
-    // Show match screen
     setTimeout(() => {
       document.getElementById('actions').style.display = 'none';
       document.querySelector('.counter-bar').style.display = 'none';
@@ -837,7 +873,6 @@ function swipeCard(direction) {
 
   dots[currentIndex].classList.add('active');
 
-  // Update stack positions
   for (let i = currentIndex; i < cards.length; i++) {
     const c = stack.querySelector(`.card[data-index="${i}"]`);
     if (c) {
@@ -855,7 +890,7 @@ function showMatchScreen() {
 }
 
 function updateCounter() {
-  const start = new Date(2020, 5, 24); // June 24, 2020
+  const start = new Date(2020, 5, 24);
   const now = new Date();
   const diff = now - start;
   const days = Math.floor(diff / (1000 * 60 * 60 * 24));
